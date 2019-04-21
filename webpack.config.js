@@ -1,15 +1,15 @@
 // webpack.config.js
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const HtmlWebpackPlugin = require('vue-html-webpack-plugin')
 const path = require('path')
 
 module.exports = {
     devServer: {
-        // The path you want webpack-dev-server to use for serving files
-        publicPath: '/dist/',
         // For static assets
-        contentBase: path.resolve('public'),
+        contentBase: path.resolve('dist'),
         // Reload for code changes to static assets.
-        watchContentBase: true
+        watchContentBase: true,
+        hot: true
     },
     mode: 'development',
     entry: {
@@ -73,7 +73,7 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(png|jpg|gif)$/,
+                test: /\.(png|jpg|gif|ico)$/,
                 use: [
                     'url-loader'
                 ]
@@ -82,6 +82,12 @@ module.exports = {
     },
     plugins: [
         // make sure to include the plugin for the magic
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        new HtmlWebpackPlugin({
+            vue: true,
+            title: 'Test',
+            template: './public/index.html',
+            filename: 'index.html'
+        })
     ]
 }
